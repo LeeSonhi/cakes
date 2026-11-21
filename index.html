@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Berry Cream · кондитерская студия</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+      background: #fdf8f7;
+      color: #2d2220;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px 16px 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* основной контейнер */
+    .app {
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    /* кнопки-вкладки */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      background: transparent;
+      padding: 0;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 12px 22px;
+      border-radius: 60px;
+      border: none;
+      background: #ffffff;
+      color: #2d2220;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.02);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      letter-spacing: -0.2px;
+      flex: 0 1 auto;
+      border: 1px solid rgba(200, 109, 125, 0.08);
+    }
+
+    .tab-btn.active {
+      background: #c86d7d;
+      color: #ffffff;
+      box-shadow: 0 10px 24px -6px rgba(200, 109, 125, 0.35);
+    }
+
+    .tab-btn:hover:not(.active) {
+      background: #fff2f2;
+      border-color: rgba(200, 109, 125, 0.2);
+    }
+
+    /* контентные страницы */
+    .page {
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+      animation: fadeSlide 0.3s ease;
+    }
+
+    .page.active-page {
+      display: flex;
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* карточки */
+    .card {
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 22px 24px;
+      box-shadow: 0 12px 30px -8px rgba(45, 34, 32, 0.06), 0 4px 12px rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      transition: box-shadow 0.2s;
+    }
+
+    /* монограмма и заголовок */
+    .hero-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .monogram {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #c86d7d;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(200, 109, 125, 0.1);
+      color: #c86d7d;
+      font-weight: 600;
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-radius: 60px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(200, 109, 125, 0.15);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: #2d2220;
+      margin-bottom: 6px;
+    }
+
+    .subhead {
+      font-size: 1rem;
+      color: #5a4b47;
+      font-weight: 400;
+      max-width: 90%;
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+      color: #2d2220;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+
+    /* текст */
+    p {
+      font-size: 0.95rem;
+      color: #3e322f;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .text-muted {
+      color: #6d5c57;
+      font-size: 0.9rem;
+    }
+
+    /* сетка 2x2 */
+    .grid-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .mini-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px 16px;
+      box-shadow: 0 8px 18px -6px rgba(45, 34, 32, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .num-badge {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #c86d7d;
+      letter-spacing: -0.02em;
+      margin-bottom: 2px;
+    }
+
+    .mini-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #2d2220;
+      line-height: 1.3;
+    }
+
+    .mini-desc {
+      font-size: 0.8rem;
+      color: #6d5c57;
+      line-height: 1.4;
+    }
+
+    /* шаги заказа */
+    .steps-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .steps-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 0.95rem;
+      color: #3e322f;
+    }
+
+    .step-num {
+      background: #fdf8f7;
+      border-radius: 40px;
+      min-width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #c86d7d;
+      border: 1px solid rgba(200, 109, 125, 0.2);
+    }
+
+    /* информационная плашка */
+    .info-plate {
+      background: #fdf8f7;
+      border-radius: 18px;
+      padding: 18px 20px;
+      font-size: 0.9rem;
+      color: #3e322f;
+      border-left: 4px solid #c86d7d;
+      line-height: 1.55;
+    }
+
+    /* карточки начинок */
+    .flavor-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .flavor-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px 20px;
+      box-shadow: 0 8px 20px -8px rgba(45, 34, 32, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .flavor-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .color-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .flavor-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #2d2220;
+      letter-spacing: -0.01em;
+    }
+
+    .flavor-price {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #c86d7d;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    .flavor-desc {
+      font-size: 0.88rem;
+      color: #5a4b47;
+      line-height: 1.5;
+      padding-left: 28px;
+    }
+
+    /* кнопка заказа */
+    .order-btn-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0 4px;
+    }
+
+    .btn-order {
+      background: #c86d7d;
+      border: none;
+      color: white;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 38px;
+      border-radius: 60px;
+      cursor: pointer;
+      box-shadow: 0 12px 24px -8px rgba(200, 109, 125, 0.45);
+      transition: all 0.2s ease;
+      letter-spacing: -0.2px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: fit-content;
+      min-width: 180px;
+    }
+
+    .btn-order:hover {
+      background: #b85e6e;
+      box-shadow: 0 16px 30px -8px rgba(200, 109, 125, 0.55);
+      transform: scale(1.01);
+    }
+
+    .btn-order:active {
+      transform: scale(0.98);
+    }
+
+    /* подвал */
+    .footer {
+      width: 100%;
+      max-width: 560px;
+      margin-top: 8px;
+      margin-bottom: 24px;
+    }
+
+    .footer-card {
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 24px 26px 18px;
+      box-shadow: 0 12px 28px -10px rgba(45, 34, 32, 0.05);
+      border-top: 2px solid rgba(200, 109, 125, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #2d2220;
+    }
+
+    .footer-schedule {
+      font-size: 0.9rem;
+      color: #5a4b47;
+    }
+
+    .instagram-link {
+      background: transparent;
+      border: none;
+      color: #c86d7d;
+      font-weight: 600;
+      font-size: 0.9rem;
+      font-family: 'Manrope', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 0 4px;
+      cursor: pointer;
+      text-decoration: underline;
+      text-decoration-color: rgba(200, 109, 125, 0.3);
+      text-underline-offset: 4px;
+      width: fit-content;
+      transition: color 0.2s;
+      letter-spacing: -0.1px;
+    }
+
+    .instagram-link:hover {
+      color: #a64e5e;
+      text-decoration-color: #c86d7d;
+    }
+
+    .footer-copyright {
+      font-size: 0.7rem;
+      color: #9b8b86;
+      margin-top: 10px;
+      letter-spacing: 0.2px;
+    }
+
+    /* модальное окно */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(45, 34, 32, 0.3);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: #ffffff;
+      max-width: 360px;
+      width: 100%;
+      border-radius: 28px;
+      padding: 28px 26px 24px;
+      box-shadow: 0 30px 60px -20px rgba(45, 34, 32, 0.3);
+      transform: scale(0.96);
+      transition: transform 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .modal-overlay.show .modal {
+      transform: scale(1);
+    }
+
+    .modal h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      color: #2d2220;
+    }
+
+    .modal p {
+      font-size: 0.92rem;
+      color: #5a4b47;
+      margin-bottom: 24px;
+      line-height: 1.55;
+    }
+
+    .modal-btn {
+      background: #c86d7d;
+      border: none;
+      color: white;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 12px 20px;
+      border-radius: 40px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+      letter-spacing: -0.2px;
+    }
+
+    .modal-btn:hover {
+      background: #b85e6e;
+    }
+
+    /* адаптив для узких экранов */
+    @media (max-width: 420px) {
+      .grid-2x2 {
+        grid-template-columns: 1fr;
+      }
+      .flavor-header {
+        flex-wrap: wrap;
+      }
+      .flavor-price {
+        margin-left: 0;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+      .tab-btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+      }
+      .card {
+        padding: 18px 16px;
+      }
+      .flavor-desc {
+        padding-left: 0;
+      }
+    }
+
+    /* выравнивание кнопок вкладок */
+    .tabs {
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Кнопки-вкладки -->
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" id="tabAbout" data-page="pageAbout" role="tab" aria-selected="true">О мастере</button>
+    <button class="tab-btn" id="tabCatalog" data-page="pageCatalog" role="tab" aria-selected="false">Каталог начинок</button>
+  </div>
+
+  <!-- СТРАНИЦА 1: О мастере (активна по умолчанию) -->
+  <div id="pageAbout" class="page active-page" role="tabpanel">
+
+    <!-- Монограмма + бейдж + заголовок -->
+    <div class="card hero-card">
+      <div class="monogram">BC</div>
+      <span class="badge">Кондитерская студия</span>
+      <h1>Berry Cream</h1>
+      <p class="subhead">Авторские бисквитные торты на заказ из натуральных ингредиентов для ваших особенных праздников.</p>
+    </div>
+
+    <!-- Блок 1: О мастере -->
+    <div class="card">
+      <h2>О мастере</h2>
+      <p>Привет! Меня зовут Анна, и я создаю торты, которые запоминаются не только красивым оформлением, но и нежным сбалансированным вкусом. Готовлю исключительно из натуральных продуктов: творожного сыра, свежих сливок 33%, бельгийского шоколада и отборных ягод. Помогу подобрать начинку, рассчитаю нужный вес под количество гостей и предложу идеи для оформления вашего торта.</p>
+    </div>
+
+    <!-- Блок 2: Сетка 2x2 -->
+    <div class="card">
+      <h2 style="margin-bottom: 6px;">Преимущества</h2>
+      <div class="grid-2x2">
+        <div class="mini-card">
+          <div class="num-badge">01</div>
+          <div class="mini-title">Натуральный состав</div>
+          <div class="mini-desc">Свежие ягоды, сливки 33% и бельгийский шоколад.</div>
+        </div>
+        <div class="mini-card">
+          <div class="num-badge">02</div>
+          <div class="mini-title">Заказ от 1,5 кг</div>
+          <div class="mini-desc">Оптимальный вес для семейного чаепития или большого праздника.</div>
+        </div>
+        <div class="mini-card">
+          <div class="num-badge">03</div>
+          <div class="mini-title">Надёжная упаковка</div>
+          <div class="mini-desc">Каждый торт отдаётся в плотной коробке с атласной лентой.</div>
+        </div>
+        <div class="mini-card">
+          <div class="num-badge">04</div>
+          <div class="mini-title">Индивидуальный декор</div>
+          <div class="mini-desc">Оформление кремом, свежими ягодами, шоколадом или надписью.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Блок 3: Как сделать заказ -->
+    <div class="card">
+      <h2>Как сделать заказ</h2>
+      <ul class="steps-list">
+        <li><span class="step-num">1</span> Выберите понравившуюся начинку в каталоге.</li>
+        <li><span class="step-num">2</span> Напишите в личные сообщения, чтобы согласовать дату, вес и декор.</li>
+        <li><span class="step-num">3</span> Заберите готовый торт самовывозом или оформите бережную доставку.</li>
+      </ul>
+    </div>
+
+    <!-- Кнопка заказа -->
+    <div class="order-btn-wrapper">
+      <button class="btn-order" id="orderBtnAbout">Заказать торт</button>
+    </div>
+
+  </div>
+
+  <!-- СТРАНИЦА 2: Каталог начинок -->
+  <div id="pageCatalog" class="page" role="tabpanel">
+
+    <div class="card">
+      <h1 style="font-size: 1.9rem; margin-bottom: 12px;">Каталог начинок</h1>
+      <div class="info-plate">
+        Минимальный вес заказа — от 1,5 кг (примерно на 7–8 человек). Базовый минималистичный декор и упаковка уже включены в стоимость за килограмм.
+      </div>
+    </div>
+
+    <!-- Список начинок -->
+    <div class="flavor-list">
+
+      <!-- 1. Клубничный пломбир -->
+      <div class="flavor-card">
+        <div class="flavor-header">
+          <span class="color-dot" style="background: #f4a6b8;"></span>
+          <span class="flavor-name">Клубничный пломбир</span>
+          <span class="flavor-price">2 100 ₽ / кг</span>
+        </div>
+        <div class="flavor-desc">Воздушный ванильный бисквит, нежный крем-чиз на сливках и ароматное конфи из спелой клубники.</div>
+      </div>
+
+      <!-- 2. Сникерс -->
+      <div class="flavor-card">
+        <div class="flavor-header">
+          <span class="color-dot" style="background: #6b4433;"></span>
+          <span class="flavor-name">Сникерс</span>
+          <span class="flavor-price">2 300 ₽ / кг</span>
+        </div>
+        <div class="flavor-desc">Влажный шоколадный бисквит, сливочный крем, тягучая домашняя карамель и обжаренный солёный арахис.</div>
+      </div>
+
+      <!-- 3. Манго-маракуйя -->
+      <div class="flavor-card">
+        <div class="flavor-header">
+          <span class="color-dot" style="background: #f5b841;"></span>
+          <span class="flavor-name">Манго-маракуйя</span>
+          <span class="flavor-price">2 400 ₽ / кг</span>
+        </div>
+        <div class="flavor-desc">Лёгкий ванильный бисквит, сливочно-сырный крем и яркая тропическая начинка из пюре манго и маракуйи.</div>
+      </div>
+
+      <!-- 4. Красный бархат с вишней -->
+      <div class="flavor-card">
+        <div class="flavor-header">
+          <span class="color-dot" style="background: #9e2a3b;"></span>
+          <span class="flavor-name">Красный бархат с вишней</span>
+          <span class="flavor-price">2 200 ₽ / кг</span>
+        </div>
+        <div class="flavor-desc">Сочные коржи с лёгким шоколадным послевкусием, классический крем-чиз и начинка из целой вишни с лёгкой кислинкой.</div>
+      </div>
+
+      <!-- 5. Фисташка-малина -->
+      <div class="flavor-card">
+        <div class="flavor-header">
+          <span class="color-dot" style="background: #8eb378;"></span>
+          <span class="flavor-name">Фисташка-малина</span>
+          <span class="flavor-price">2 500 ₽ / кг</span>
+        </div>
+        <div class="flavor-desc">Нежный бисквит на натуральной фисташковой пасте, фисташковый крем-чиз и прослойка из свежей малины.</div>
+      </div>
+
+    </div>
+
+    <!-- Кнопка заказа -->
+    <div class="order-btn-wrapper">
+      <button class="btn-order" id="orderBtnCatalog">Заказать торт</button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Подвал -->
+<footer class="footer">
+  <div class="footer-card">
+    <div class="footer-name">Кондитерская студия «Berry Cream»</div>
+    <div class="footer-schedule">Принимаем заказы ежедневно с 09:00 до 21:00</div>
+    <button class="instagram-link" id="instagramBtn">Мы в Instagram</button>
+    <div class="footer-copyright">© Berry Cream, 2026 • Пример сайта для портфолио</div>
+  </div>
+</footer>
+
+<!-- Модальное окно -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>Демонстрационный режим</h3>
+    <p>Это пример сайта для портфолио. В готовом проекте эта кнопка сразу открывает нужный чат или профиль мастера.</p>
+    <button class="modal-btn" id="modalCloseBtn">Понятно</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // --- Переключение вкладок ---
+    const tabAbout = document.getElementById('tabAbout');
+    const tabCatalog = document.getElementById('tabCatalog');
+    const pageAbout = document.getElementById('pageAbout');
+    const pageCatalog = document.getElementById('pageCatalog');
+
+    function activateTab(activeTabBtn, inactiveTabBtn, activePage, inactivePage) {
+      activeTabBtn.classList.add('active');
+      activeTabBtn.setAttribute('aria-selected', 'true');
+      inactiveTabBtn.classList.remove('active');
+      inactiveTabBtn.setAttribute('aria-selected', 'false');
+      activePage.classList.add('active-page');
+      inactivePage.classList.remove('active-page');
+    }
+
+    tabAbout.addEventListener('click', () => {
+      activateTab(tabAbout, tabCatalog, pageAbout, pageCatalog);
+    });
+
+    tabCatalog.addEventListener('click', () => {
+      activateTab(tabCatalog, tabAbout, pageCatalog, pageAbout);
+    });
+
+    // --- Модальное окно ---
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+    function openModal() {
+      modalOverlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    // Кнопки заказа (обе страницы)
+    document.getElementById('orderBtnAbout').addEventListener('click', openModal);
+    document.getElementById('orderBtnCatalog').addEventListener('click', openModal);
+
+    // Ссылка Instagram
+    document.getElementById('instagramBtn').addEventListener('click', openModal);
+
+    // Закрытие по кнопке
+    modalCloseBtn.addEventListener('click', closeModal);
+
+    // Закрытие по клику вне модалки
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
+
+    // Закрытие по Esc
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('show')) {
+        closeModal();
+      }
+    });
+
+    // Убираем overflow при закрытии модалки (на случай если что-то пошло не так)
+    window.addEventListener('beforeunload', () => {
+      document.body.style.overflow = '';
+    });
+  })();
+</script>
+
+</body>
+  </html>
